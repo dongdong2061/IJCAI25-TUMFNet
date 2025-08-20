@@ -1,7 +1,7 @@
 # IJCAI25-TUMFNet
 
 ### Models and Results
-You can download the model and results from here[].
+You can download the model and results from [here](https://pan.baidu.com/s/1_6PFAWynBXOlPTX97w1U4Q).
 
 ### Path Setting
 Run the following command to set paths:
