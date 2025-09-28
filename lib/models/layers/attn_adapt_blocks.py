@@ -113,48 +113,6 @@ class CEABlock(nn.Module):
 
 
     def forward(self, x, xi, global_index_template, global_index_templatei, global_index_search, global_index_searchi, mask=None, ce_template_mask=None, keep_ratio_search=None,dynamic_template=None,Test=None):
-        #for two templates
-        #准备两个模板用于计算注意力学习
-        # z = x[:, :64]
-        # zi = xi[:,:64]
-        # new_x = x[:,64:]
-        # new_xi = xi[:,64:]
-        # z_ori = z
-        # zi_ori = zi
-        # if dynamic_template ==None:
-        #     z_d,zi_d = z_ori,zi_ori
-        # else:
-        #     z_d,zi_d = torch.chunk(dynamic_template,2,dim=1)
-
-        # new_z = z.clone()
-        # new_zi = zi.clone()
-        # for i in range(0,new_z.shape[0]-1):
-        #     new_z[i] = z[i+1]
-        #     new_zi[i] = zi[i+1]
-        # new_z[-1] = z[0]
-        # new_zi[-1] = zi[0]
-        # # z = new_z + z
-        # # zi = new_zi + zi
-        # # z = z_ori+self.adap_cross_template(self.adap_norm3(new_z),self.adap_norm3(z))
-        # # new_z = new_z + self.adap_cross_template(self.adap_norm3(z),self.adap_norm3(new_z))
-        # # zi = zi_ori+self.adap_cross_template(self.adap_norm3(new_zi),self.adap_norm3(zi))
-        # #20240701
-        # # new_zi = new_zi + self.adap_cross_template((zi),(new_zi))
-        # #20240702
-        # # new_zi = new_zi + self.adap_cross_template(self.adap_norm3(zi),self.adap_norm3(new_zi))
-        # z = torch.cat([z,z_d],dim=1)
-        # zi = torch.cat([zi,zi_d],dim=1)
-        # # z = torch.cat([new_z,z],dim=-1)
-        # # zi = torch.cat([new_zi,zi],dim=-1)
-        # # z = z_ori + self.adap_fusion(z)
-        # # zi = zi_ori + self.adap_fusion(zi)
-        # # z = z_ori + z
-        # # zi = zi_ori + zi
-        # x = torch.cat([z,new_x],dim=1)
-        # xi = torch.cat([zi,new_xi],dim=1)
-
-
-       
 
 
         xori = x
@@ -184,17 +142,6 @@ class CEABlock(nn.Module):
         # xi = xi + self.drop_path(self.mlp(self.norm2(xi))) + self.drop_path(self.adap2_t(self.norm2(xori)))   ###-------adapter
         # x,xi,rgb_att,tir_att = self.adap_cross(x,xi)
 
-        # print('x',x.size())
-        #恢复原始形状
-        # z = x[:, :64]
-        # zi = xi[:,:64]
-        # d_tokens = x[:,64:128]
-        # di_tokens = xi[:,64:128]
-        # dynamic_template = torch.cat([d_tokens,di_tokens],dim=1)
-        # new_x = x[:,128:]
-        # new_xi = xi[:,128:]
-        # x = torch.cat([z,new_x],dim=1)
-        # xi = torch.cat([zi,new_xi],dim=1)       
 
         return x, global_index_template, global_index_search, removed_index_search, attn, xi,global_index_templatei, global_index_searchi, removed_index_searchi, i_attn
 
@@ -215,14 +162,10 @@ class CEABlock_Enhancement(nn.Module):
         self.keep_ratio_search = keep_ratio_search
 
         
-        # self.adap_t = Bi_direct_adapter()        
-        # self.adap2_t = Bi_direct_adapter()
+
         self.adap_fusion = CrossModal_ST_Fusion_with_uncertainty(dim)
         self.adap_fusion2 = CrossModal_ST_Fusion_with_uncertainty(dim)
-        # self.adap_attn = Attention_Uncertainty_Enhancement(dim)
-        # self.adap_attn2 = Attention_Uncertainty_Enhancement(dim)
-        # self.adap_enhancement = EfficientAdditiveAttention(dim,dim)
-        # self.adap_enhancement2 = EfficientAdditiveAttention(dim,dim)
+
 
 
     def forward(self, x, xi, global_index_template, global_index_templatei, global_index_search, global_index_searchi, mask=None, ce_template_mask=None, keep_ratio_search=None,Test=None,dynamic_template=None,template_masks=None):
