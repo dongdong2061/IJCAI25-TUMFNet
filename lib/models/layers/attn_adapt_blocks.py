@@ -7,18 +7,7 @@ from lib.models.layers.attn import Attention
 from lib.models.layers.adapter import Bi_direct_adapter
 from lib.models.bat.cross_layer import CrossModal_Templates_Update,CrossModal_ST_Fusion,CrossAttention,CrossModal_ST_Fusion_Temporal
 from lib.models.bat.uncertainty_fusion import CrossModal_ST_Fusion_with_uncertainty,BasicBlock
-class FeatureReconstructionModel(nn.Module):
-    def __init__(self, input_dim, hidden_dim):
-        super(FeatureReconstructionModel, self).__init__()
-        # 使用一个简单的解码器将后层特征映射回前层特征空间
-        self.decoder = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),  # 假设前层特征是隐藏维度
-            nn.ReLU(),
-            nn.Linear(hidden_dim, input_dim)   # 重建为前层特征的维度
-        )
 
-    def forward(self, x):
-        return self.decoder(x)
 
 def candidate_elimination(attn: torch.Tensor, tokens: torch.Tensor, lens_t: int, keep_ratio: float, global_index: torch.Tensor, box_mask_z: torch.Tensor):
     """
