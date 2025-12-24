@@ -1,5 +1,7 @@
 # IJCAI25-TUMFNet
 
+:star2::star2::star2: Our extended version has been released. Please visit the [project](https://github.com/dongdong2061/UATrack) to access it.
+
 ### Models and Results
 You can download the model and results from [here](https://pan.baidu.com/s/1vvm_VJsNsldFxIhP1Qq6-g?pwd=f643).
 
